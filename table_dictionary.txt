@@ -1,0 +1,133 @@
+staging_i94_table
+
+column | data type | description:
+
+cic_id | int | unique identify key
+i94_year | int | arriving year of travellers
+i94_month | int | arriving month of travellers
+i94_incoming_country | text | incoming country of travellers
+i94_landing_port | text | landing port of travellers
+arrival_date | date | arriving date of travellers
+i94_travel_mode | text | arriving transportation
+i94_address | text | state of registered i94 address
+departure_date | date | NONE if not departed from the US yet
+i94_age | int | current age of travellers
+i94_visa | text | travel purpose
+match_flag | text | match of arrival and departure records
+birth_year | int | birth year of travellers
+admitted_date | date | date to which admitted to U.S. (allowed to stay until)
+gender | text | sex of travellers
+INS_no | text | INS Number of travellers
+airline | text | airline used to arrive in U.S.
+admission_no | int | admission Number
+flight_no | text | flight Number
+visa_type | text | visa type of travellers
+
+
+
+staging_demographics_table
+
+column | data type | description:
+
+city | text | city in the US
+state | text | state of US
+state_code | text | abbreviation of state
+Race | text | main race in the population
+count | int | Used for summary statistics
+male_population | int | male population
+female_population | int | female population
+median_age | float | median age in the population
+total_population | int | total population
+number_of_veterans | int | number of veterans in the population
+foreign_born | int | foreign-born population
+average_household_size | float | average household size owned by residents
+
+
+
+staging_temperature_table
+
+column | data type | description:
+
+date | date | the first day of that month
+average_temperature | float | average temperature of that month
+average_temperature_uncertainty | float | reliability and certainty of the average temperature
+city | text | city in the US
+latitude | text | latitude of the city
+longitude | text | longitude of the city
+year | int | year of the date
+month | int | month of the date
+state | text | state of the city in the US
+
+
+
+traveller_destination_table
+
+column | data type | description:
+
+cic_id (primary key) | int | unique identify key
+traveler_INS | text | traveller's INS Number
+traveler_incoming_country | text | incoming country of travellers
+traveler_age | int | current age of travellers
+traveler_birth_year | int | birth year of travellers
+traveler_gender | text | sex of travellers
+destination_state (foreign key) | text | traveller's state of registered i94 address
+state_avg_temperature | float | average temperature in the state from 1993 to 2013
+state_total_population | int | total population in the state
+state_median_age | float | median age in the population in the state
+state_foreign_born | int | foreign-born population in the state
+state_male_population | int | male population in the state
+state_female_population | int | female population in the state
+
+
+
+
+temperature_us_table
+
+column | data type | description:
+
+state (primary key) | text | state of US
+average_temperature | float | average temperature from 1993 to 2013
+average_temperature_uncertainty | float | reliability and certainty of the average temperature
+
+
+
+demographics_us_table
+
+column | data type | description:
+
+state (primary key) | text | state of US
+median_age | float | median age in the population
+total_population | int | total population
+number_of_veterans | int | number of veterans in the population
+foreign_born | int | foreign-born population
+average_household_size | float | average household size owned by residents
+male_population | int | male population
+female_population | int | female population
+
+
+
+traveler_table
+
+column | data type | description:
+
+cic_id (primary key) | int | unique identify key
+i94_incoming_country | text | incoming country of travellers
+i94_landing_port | text | landing port of travellers
+arrival_date | date | arriving date of travellers
+i94_travel_mode | text | arriving transportation
+i94_address | text | state of registered i94 address
+departure_date | date | NONE if not departed from the US yet
+i94_age | int | current age of travellers
+i94_visa | text | purpose of the visa
+birth_year | int | birth year of travellers
+admitted_date | date | date to which admitted to U.S. (allowed to stay until)
+gender | text | sex of travellers
+INS_no | text | INS Number
+visa_type | text | visa type of travellers
+
+
+model:
+staging_i94_table  ------------->  traveler_table         |
+staging_temperature_table  ----->  temperature_us_table   |  ====>>  traveller_destination_table
+staging_demographics_table  ---->  demographics_us_table  |     
+                                                            
